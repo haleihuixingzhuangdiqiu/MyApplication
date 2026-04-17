@@ -1,0 +1,14 @@
+package com.example.myapplication.game
+
+import androidx.databinding.ViewDataBinding
+import com.example.myapplication.framework.BaseBindingVmActivity
+import com.example.myapplication.framework.BaseViewModel
+
+/**
+ * `feature:game` 内带 VM 的 DataBinding Activity 基类；约定布局变量名为 `vm`。
+ */
+abstract class GameBindingVmActivity<VB : ViewDataBinding, VM : BaseViewModel> :
+    BaseBindingVmActivity<VB, VM>() {
+
+    override val viewModelBrId: Int = BR.vm
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <activity
+            android:name=".MallActivity"
+            android:exported="false"
+            android:theme="@style/Theme.FeatureMall" />
+        <activity
+            android:name=".MallItemDetailActivity"
+            android:exported="false"
+            android:theme="@style/Theme.FeatureMall.Detail" />
+    </application>
+</manifest>

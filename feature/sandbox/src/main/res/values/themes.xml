@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 与主工程一致使用 Material3，否则 framework_page_overlay 内 MaterialButton 在 AppCompat 主题下 inflate 会失败 -->
+    <style name="Theme.Sandbox" parent="Theme.Material3.Light.NoActionBar" />
+</resources>

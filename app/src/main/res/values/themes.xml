@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.MyApplication" parent="Theme.Material3.Light.NoActionBar">
+        <!-- 与 Splash / Lottie 遮罩同色，避免 postSplash 切换瞬间露白 -->
+        <item name="android:windowBackground">@color/splash_background</item>
+    </style>
+
+    <!-- Launcher：系统启动窗 + AndroidX SplashScreen；结束后切回主主题 -->
+    <style name="Theme.MyApplication.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+        <!-- 与底色同色的占位「图标」，视觉上仍是纯色闪屏，但系统会正常绘制 Splash（全透明易无启动层） -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_screen_icon_brand</item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/splash_background</item>
+        <item name="postSplashScreenTheme">@style/Theme.MyApplication</item>
+    </style>
+</resources>

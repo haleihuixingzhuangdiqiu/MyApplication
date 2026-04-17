@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <activity
+            android:name=".SocialActivity"
+            android:exported="false"
+            android:theme="@style/Theme.FeatureSocial" />
+        <activity
+            android:name=".SocialFeedDetailActivity"
+            android:exported="false"
+            android:theme="@style/Theme.FeatureSocial.Detail" />
+    </application>
+</manifest>

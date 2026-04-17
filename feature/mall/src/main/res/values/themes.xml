@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.FeatureMall" parent="Theme.Material3.DayNight.NoActionBar" />
+
+    <style name="Theme.FeatureMall.Detail" parent="Theme.FeatureMall">
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+</resources>

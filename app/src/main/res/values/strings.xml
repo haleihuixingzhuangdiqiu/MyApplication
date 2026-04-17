@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="main_portal_hint">单 Activity 门户：底部 Tab 切换各业务 Fragment；独立路由仍可打开各模块 Activity。</string>
+    <string name="tab_game">游戏广场</string>
+    <string name="tab_social">关注流</string>
+    <string name="tab_mall">好物广场</string>
+    <string name="tab_profile">我的</string>
+    <string name="login_title">登录</string>
+    <string name="login_subtitle">使用账号密码登录（演示环境任意非空密码即可）。</string>
+    <string name="login_username_hint">账号 / 手机号</string>
+    <string name="login_password_hint">密码</string>
+    <string name="login_submit">登录</string>
+    <string name="login_demo_hint">提示：键盘「完成」可提交；页面随软键盘上移（adjustResize）。</string>
+    <string name="profile_guest_title">登录后体验完整功能</string>
+    <string name="profile_guest_subtitle">关注、购物车与「我的」数据将同步到账号。</string>
+    <string name="profile_go_login">去登录</string>
+    <string name="profile_logged_out_short">未登录</string>
+    <string name="profile_logged_in_as">%1$s，欢迎回来</string>
+    <string name="profile_stat_follow">关注</string>
+    <string name="profile_stat_fans">粉丝</string>
+    <string name="profile_stat_like">获赞</string>
+    <string name="profile_section_tools">常用工具</string>
+    <string name="profile_entry_sandbox">沙箱试页面</string>
+    <string name="profile_sign_out">退出登录</string>
+</resources>

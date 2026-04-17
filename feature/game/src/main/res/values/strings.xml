@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="game_screen_title">游戏广场</string>
+    <string-array name="game_tab_labels">
+        <item>精选</item>
+        <item>直播</item>
+        <item>榜单</item>
+        <item>新游</item>
+    </string-array>
+    <string name="game_hint_init">正在同步数据…</string>
+    <string name="game_hint_ok">app_meta %1$d 行 · 已缓存帖子 %2$d 条（可下拉刷新）</string>
+    <string name="game_hint_network_fail">app_meta %1$d 行 · 网络失败，可下拉重试</string>
+    <string name="game_hint_refreshed">已同步 %1$d 条到 Room</string>
+    <string name="game_refresh_fail">刷新失败</string>
+    <string name="game_section_feed_title">%1$s · 推荐流</string>
+    <string name="game_section_feed_subtitle">按帖子 id 模 4 与分区对齐（演示筛选）</string>
+    <string name="game_section_empty_title">暂无内容</string>
+    <string name="game_section_empty_subtitle">切换上方分区或下拉刷新</string>
+    <string name="game_section_more_title">继续浏览</string>
+    <string name="game_section_more_subtitle">剩余 %1$d 条</string>
+    <string name="game_banner_1_title">周末排位双倍</string>
+    <string name="game_banner_1_sub">限时活动 · 点击查看详情</string>
+    <string name="game_banner_2_title">新英雄试玩</string>
+    <string name="game_banner_2_sub">预约领皮肤碎片</string>
+    <string name="game_banner_3_title">社区创作赛</string>
+    <string name="game_banner_3_sub">投稿瓜分现金奖池</string>
+    <string name="game_banner_index">%1$d / %2$d</string>
+    <string name="game_post_detail_title">帖子详情</string>
+    <string name="game_post_detail_hero_desc">封面</string>
+</resources>

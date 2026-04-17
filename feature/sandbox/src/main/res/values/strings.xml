@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sandbox_hub_title">沙箱 / 试页面</string>
+    <string name="sandbox_open_background">BackgroundLibrary 试页面</string>
+    <string name="sandbox_open_module_adapter">ModuleAdapter 试页面</string>
+    <string name="background_library_test_title">BackgroundLibrary 试页面</string>
+    <string name="background_library_section_basic">一、圆角 + 描边 + 填充</string>
+    <string name="background_library_section_gradient">二、渐变背景</string>
+    <string name="background_library_section_pressed">三、按下变色（需可点击）</string>
+    <string name="background_library_section_ripple">四、水波纹（API 21+）</string>
+    <string name="background_library_sample_rounded_solid">圆角描边卡片</string>
+    <string name="background_library_sample_gradient">水平渐变条</string>
+    <string name="background_library_sample_pressed">点我（按下变浅）</string>
+    <string name="background_library_sample_ripple">点我看水波纹</string>
+    <string name="module_adapter_test_title">ModuleAdapter 试页面</string>
+    <string name="module_adapter_test_intro">依赖：JitPack com.github.ToryCrox.ModuleAdapter:module_adapter:0.2.0。看实现请在 GitHub 打开仓库，或在 IDE 对类「Go to」时选择下载源码。</string>
+    <string name="sandbox_page_state_title">页面状态试页面</string>
+    <string name="sandbox_open_page_state">页面状态（Loading / Empty / Error）</string>
+    <string name="sandbox_page_state_intro">直接驱动 PageOverlayHost，与 BaseViewModel.showPageLoading / showPageEmpty / showPageError 使用同一套 PageOverlayState。</string>
+    <string name="sandbox_page_state_btn_loading">显示 Loading</string>
+    <string name="sandbox_page_state_btn_empty_default">显示 Empty（默认文案）</string>
+    <string name="sandbox_page_state_btn_empty_custom">显示 Empty（自定义 hint）</string>
+    <string name="sandbox_page_state_btn_error_retry">显示 Error（可重试）</string>
+    <string name="sandbox_page_state_btn_error_no_retry">显示 Error（无重试）</string>
+    <string name="sandbox_page_state_btn_hide">隐藏遮罩</string>
+    <string name="sandbox_page_state_empty_custom">暂无更多（自定义）</string>
+    <string name="sandbox_page_state_error_sample">模拟网络失败，可点重试关闭。</string>
+    <string name="sandbox_page_state_error_no_retry_hint">仅展示错误，不提供重试按钮。</string>
+</resources>

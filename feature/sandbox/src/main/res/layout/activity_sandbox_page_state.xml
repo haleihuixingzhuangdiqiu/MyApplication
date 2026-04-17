@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:text="@string/sandbox_page_state_intro"
+            android:textAppearance="?attr/textAppearanceBodyMedium" />
+
+        <Button
+            android:id="@+id/btn_overlay_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/sandbox_page_state_btn_loading" />
+
+        <Button
+            android:id="@+id/btn_overlay_empty_default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/sandbox_page_state_btn_empty_default" />
+
+        <Button
+            android:id="@+id/btn_overlay_empty_custom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/sandbox_page_state_btn_empty_custom" />
+
+        <Button
+            android:id="@+id/btn_overlay_error_retry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/sandbox_page_state_btn_error_retry" />
+
+        <Button
+            android:id="@+id/btn_overlay_error_no_retry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/sandbox_page_state_btn_error_no_retry" />
+
+        <Button
+            android:id="@+id/btn_overlay_hide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sandbox_page_state_btn_hide" />
+    </LinearLayout>
+</ScrollView>

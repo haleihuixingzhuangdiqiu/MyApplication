@@ -1,0 +1,55 @@
+# Built / 构建产物
+**/build/
+# 本地打 release 包常见输出目录（勿提交 APK/AAB）
+app/release/
+bin/
+gen/
+out/
+*.apk
+*.aab
+*.aar
+*.ap_
+*.dex
+*.class
+
+# Gradle
+.gradle/
+local.properties
+
+# Android Studio / IntelliJ IDEA
+*.iml
+.idea/
+# 若需共享部分 IDE 配置，可改为精细忽略，例如只保留：
+# !/.idea/codeStyles/
+# !/.idea/inspectionProfiles/
+
+# 本机 / 缓存
+.DS_Store
+Thumbs.db
+*.log
+*.hprof
+
+# NDK / CMake
+.externalNativeBuild/
+.cxx/
+obj/
+
+# 抓包与 Profiling
+/captures/
+*.hprof
+
+# Kotlin
+.kotlin/
+
+# 混淆映射（若上传 Play 需保留 mapping，勿提交到公开仓库可取消下面一行）
+# app/mapping/
+
+# 签名（切勿提交真实密钥库）
+*.jks
+*.keystore
+
+# fastlane（若使用）
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 与窗口底色同色；系统仍按「带图标」绘制 Splash，避免全透明小图导致部分机型冷启动无启动层 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="@color/splash_background" />
+    <size
+        android:width="200dp"
+        android:height="200dp" />
+</shape>

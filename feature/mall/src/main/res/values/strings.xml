@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mall_login_banner_text">你还未登录，购物车将同步到账号</string>
+    <string name="mall_go_login">去登录</string>
+    <string name="mall_row_add_cart">加入购物车</string>
+    <string name="mall_row_remove_cart">移出购物车</string>
+    <string name="mall_item_detail_title">商品详情</string>
+    <string name="mall_item_detail_hero_desc">商品图</string>
+</resources>
