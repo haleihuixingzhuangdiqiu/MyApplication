@@ -14,6 +14,7 @@ android {
 
 dependencies {
     implementation(project(":core:common"))
+    api(project(":core:mvvm"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.recyclerview)
@@ -25,6 +26,7 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.autosize)
     implementation(libs.arouter.api)
     kapt(libs.arouter.compiler)
 }

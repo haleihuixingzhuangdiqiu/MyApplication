@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.framework.BaseViewModel
+import com.example.myapplication.mvvm.BaseViewModel
 import com.example.myapplication.session.SessionRepository
 import com.example.myapplication.session.SessionState
 import dagger.hilt.android.lifecycle.HiltViewModel

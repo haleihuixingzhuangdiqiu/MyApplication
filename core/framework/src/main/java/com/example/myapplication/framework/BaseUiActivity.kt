@@ -18,19 +18,37 @@ import com.google.android.material.appbar.MaterialToolbar
 import java.util.WeakHashMap
 
 /**
- * Activity 通用 UI 基类（[BaseBindingVmActivity] / [BaseBindingActivity] 等均经此类）：
- * 1) 系统栏模式（带系统栏 / 全屏）
- * 2) 页面跳转动画
- * 3) 可选独立壳：覆写 [standaloneShellLayoutId] + [standaloneToolbarId] 即自动 setContentView + Toolbar，并实现 [FeatureStandaloneToolbarHost]
- * 4) 其它非 DataBinding 页（如 ViewBinding 详情）继承本类后调用 [bindMaterialToolbar]
+ * 业务 `Activity` 的**壳层基类**（[BaseBindingActivity] / [BaseBindingVmActivity] 等均继承此类）。
+ * 负责与「业务长什么样」弱相关、与「全 App 表现一致」强相关的几件事，避免每个页面自己处理一遍。
+ *
+ * ## 本类管什么
+ * 1) **[BarMode] / [setBarMode]**：沉浸式与系统栏显隐。带系统栏时仍可用 `WindowCompat` 做边到边，由 [shouldApplyRootStatusBarInsets] 给根布局补 `statusBars` 顶部 padding。
+ * 2) **[ActivityTransition] / [startActivityWithTransition] / [finishWithTransition]**：在 `startActivity` / `finish` 后统一加进入退出动画，避免各页复制 `overridePendingTransition`。
+ * 3) **独立 Toolbar 壳**：[standaloneShellLayoutId] + [standaloneToolbarId] 非空时，在 [onCreate] 里自动 `setContentView` 并接好返回键，适合沙箱/独立二级页。与 [BaseBindingActivity] 的 DataBinding 根二选一，勿两边都配。
+ * 4) **顶栏/Fragment 与主壳的协作**：实现 [FeatureStandaloneToolbarHost]；子 Fragment 见 [ToolbarHostFragmentKtx] 等。
+ *
+ * ## 本类不管什么
+ * - **不**内建 [com.example.myapplication.mvvm.BaseViewModel]；要 VM + DataBinding 请用 [BaseBindingVmActivity]。
+ * - **不**内建 [PageOverlayHost]；整页蒙层在 [BaseBindingActivity] 里可选挂载，或子类在 `setContentView` 后自行 [attachPageOverlayHost] 并自己 `collect` [com.example.myapplication.mvvm.BaseViewModel.pageOverlay]。
+ *
+ * ## 屏幕密度（AndroidAutoSize）
+ * 应用启动时通过 [FrameworkAutoAdaptStrategy] 与 [com.example.myapplication.mvvm.BaseViewModel] 无关；[useAutoSize] 为 `false` 的页面等效于官方 `CancelAdapt`。
+ * 已刻意**不再**在 [getResources] 里做密度改写，避免子线程读 `Resources`（如 Lottie）时踩主线程校验。
  */
 abstract class BaseUiActivity : AppCompatActivity(), FeatureStandaloneToolbarHost {
 
+    /**
+     * 与 [initialBarMode] / [setBarMode] 搭配：带系统栏（适合绝大多数业务页）或全屏隐藏系统栏（视频、引导等）。
+     */
     enum class BarMode {
         WITH_SYSTEM_BARS,
         FULLSCREEN,
     }
 
+    /**
+     * 成对的进入/离开动画资源（在 `startActivity` 或 `finish` **之后**用 [android.app.Activity.overridePendingTransition] 应用）。
+     * [NO_ANIM] 表示不覆盖过渡；常用预设见 [FADE]、[SLIDE_HORIZONTAL]。
+     */
     data class ActivityTransition(
         @param:AnimRes val enterAnim: Int = NO_ANIM,
         @param:AnimRes val exitAnim: Int = NO_ANIM,
@@ -51,6 +69,18 @@ abstract class BaseUiActivity : AppCompatActivity(), FeatureStandaloneToolbarHos
 
     /** finish 后默认应用的过渡动画。 */
     protected open val defaultCloseTransition: ActivityTransition = ActivityTransition.NONE
+
+    /**
+     * 是否由基类对根布局自动应用状态栏顶部 inset。
+     * 闪屏等需要维持沉浸式视觉、但又不想隐藏系统栏时，可关闭此行为自行处理。
+     */
+    protected open val shouldApplyRootStatusBarInsets: Boolean = true
+
+    /**
+     * 是否由 [FrameworkAutoAdaptStrategy] 对当前页做 AndroidAutoSize 密度适配。
+     * 默认 `true`；闪屏/固定像素页等可改为 `false`（效果同 [me.jessyan.autosize.internal.CancelAdapt]）。
+     */
+    open val useAutoSize: Boolean get() = true
 
     /**
      * 独立业务壳（与 [BaseBindingActivity] 互斥）：二者均非 null 时，在 [onCreate] 内 [setContentView] 并绑定 Toolbar。
@@ -165,6 +195,10 @@ abstract class BaseUiActivity : AppCompatActivity(), FeatureStandaloneToolbarHos
     }
 
     private fun installInsetsHandlerIfNeeded() {
+        if (!shouldApplyRootStatusBarInsets) {
+            insetsTargetView = null
+            return
+        }
         val content = findViewById<ViewGroup>(android.R.id.content) ?: return
         val root = content.getChildAt(0) ?: return
         if (insetsTargetView === root) {
@@ -176,6 +210,8 @@ abstract class BaseUiActivity : AppCompatActivity(), FeatureStandaloneToolbarHos
             val base = basePaddings.getOrPut(view) {
                 Padding(view.paddingLeft, view.paddingTop, view.paddingRight, view.paddingBottom)
             }
+            // 基类只补状态栏顶部 inset，底部导航栏/键盘等交给具体页面按需处理，
+            // 这样可以避免统一策略误伤带底部栏或沉浸式内容的页面。
             val statusBarTop = if (currentBarMode == BarMode.WITH_SYSTEM_BARS) {
                 windowInsets.getInsets(WindowInsetsCompat.Type.statusBars()).top
             } else {
@@ -197,8 +233,8 @@ abstract class BaseUiActivity : AppCompatActivity(), FeatureStandaloneToolbarHos
     }
 
     /**
-     * 未使用 [BaseBindingActivity] 时，在 [setContentView] 之后挂载与 [BaseViewModel.pageOverlay] 配套的遮罩层；
-     * 需在生命周期内自行 [kotlinx.coroutines.flow.collect] [BaseViewModel.pageOverlay] 并调用 [PageOverlayHost.render]。
+     * 未使用 [BaseBindingActivity] 时，在 [setContentView] 之后挂载与 [com.example.myapplication.mvvm.BaseViewModel.pageOverlay] 配套的遮罩层；
+     * 需在生命周期内自行 [kotlinx.coroutines.flow.collect] 并调用 [PageOverlayHost.render]。
      */
     protected fun attachPageOverlayHost(onRetryClick: () -> Unit): PageOverlayHost =
         PageOverlayHost.attachToActivityContent(this, onRetryClick)

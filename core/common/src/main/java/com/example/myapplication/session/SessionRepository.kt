@@ -1,7 +1,5 @@
 package com.example.myapplication.session
 
-import android.content.Context
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.Dispatchers
@@ -21,12 +19,10 @@ data class SessionState(
  */
 @Singleton
 class SessionRepository @Inject constructor(
-    @ApplicationContext context: Context,
+    private val localStore: SessionLocalStore,
 ) {
 
-    private val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-
-    private val _state = MutableStateFlow(readState())
+    private val _state = MutableStateFlow(localStore.readState())
     val state: StateFlow<SessionState> = _state.asStateFlow()
 
     @Volatile
@@ -34,12 +30,6 @@ class SessionRepository @Inject constructor(
 
     @Volatile
     private var pendingCartPostId: Int? = null
-
-    private fun readState(): SessionState {
-        val loggedIn = prefs.getBoolean(KEY_LOGGED_IN, false)
-        val name = prefs.getString(KEY_NAME, null)
-        return SessionState(isLoggedIn = loggedIn, displayName = name)
-    }
 
     /**
      * 模拟账号密码登录：非空密码即视为成功（演示用）。
@@ -52,28 +42,22 @@ class SessionRepository @Inject constructor(
         if (password.isEmpty()) {
             return@withContext Result.failure(IllegalArgumentException("请输入密码"))
         }
-        prefs.edit()
-            .putBoolean(KEY_LOGGED_IN, true)
-            .putString(KEY_NAME, u)
-            .apply()
-        _state.value = readState()
+        localStore.writeSignedIn(u)
+        _state.value = localStore.readState()
         Result.success(Unit)
     }
 
     /** 兼容旧占位入口（如测试）。 */
     suspend fun signInMock(displayName: String) = withContext(Dispatchers.IO) {
-        prefs.edit()
-            .putBoolean(KEY_LOGGED_IN, true)
-            .putString(KEY_NAME, displayName.ifBlank { "访客" })
-            .apply()
-        _state.value = readState()
+        localStore.writeSignedIn(displayName.ifBlank { "访客" })
+        _state.value = localStore.readState()
     }
 
     suspend fun signOut() = withContext(Dispatchers.IO) {
-        prefs.edit().clear().apply()
+        localStore.clear()
         pendingFollowEntryId = null
         pendingCartPostId = null
-        _state.value = readState()
+        _state.value = localStore.readState()
     }
 
     fun setPendingFollowEntryId(id: Int) {
@@ -94,11 +78,5 @@ class SessionRepository @Inject constructor(
         val v = pendingCartPostId
         pendingCartPostId = null
         return v
-    }
-
-    private companion object {
-        const val PREFS = "app_session"
-        const val KEY_LOGGED_IN = "logged_in"
-        const val KEY_NAME = "display_name"
     }
 }

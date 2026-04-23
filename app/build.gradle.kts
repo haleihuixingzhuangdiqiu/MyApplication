@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.google.material)
     implementation(libs.background.library)
     implementation(libs.lottie)
+    implementation(libs.autosize)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)

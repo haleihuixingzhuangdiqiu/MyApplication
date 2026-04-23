@@ -36,6 +36,8 @@ object LiveDataBus {
         val live = with<T>(key)
         val wrapped = object : Observer<T?> {
             override fun onChanged(value: T?) {
+                // 首次收到值后立即移除，适合一次性返回结果；
+                // 若 value 在 observe 前已存在，仍会按 LiveData 语义立刻回调一次。
                 live.removeObserver(this)
                 observer.onChanged(value)
             }

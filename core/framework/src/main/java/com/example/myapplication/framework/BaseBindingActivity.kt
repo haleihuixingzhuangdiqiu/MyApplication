@@ -6,16 +6,26 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleOwner
+import com.example.myapplication.mvvm.BaseViewModel
 
 /**
- * 仅 DataBinding + 生命周期的 Activity 基类；无 ViewModel 时使用。
- * 子类勿覆写 [BaseUiActivity] 的 `standaloneShellLayoutId` / `standaloneToolbarId`（由本类 inflate 根布局）。
- * 若使用 Hilt，在子类标注 [@dagger.hilt.android.AndroidEntryPoint]。
- * 需要 ViewModel 时继承 [BaseBindingVmActivity]。
+ * **DataBinding 根布局 + 生命周期**的 Activity 基类；**无** `ViewModel` 绑定时用本类即可。
  *
- * 页面级全屏遮罩（加载 / 空 / 错 + 可选重试）：
- * - [enablePageOverlay] 为 true 时挂到 [android.R.id.content] 最上层，与 [BaseViewModel.pageOverlay] 自动同步。
- * - 需要重试时：在 ViewModel 中 [BaseViewModel.onPageOverlayRetry]，或在本类设置 [onPageOverlayRetry] 回调（优先于 ViewModel）。
+ * ## 与 [BaseUiActivity] 的关系
+ * 继承链：[BaseBindingActivity] → [BaseUiActivity]。本类在 [onCreate] 里用 [androidx.databinding.DataBindingUtil.inflate] 得到 [binding]，
+ * 并调用 `setContentView(binding.root)`；因此**禁止**再直接 `setContentView(int)`（基类已重写为抛异常防误用）。
+ *
+ * ## 与「独立 Toolbar 壳」互斥
+ * 不要同时覆写 [BaseUiActivity.standaloneShellLayoutId] / [BaseUiActivity.standaloneToolbarId] 与这里的 [layoutId]——两套都是根布局方案，二选一。
+ *
+ * ## 整页蒙层（与 [com.example.myapplication.mvvm.BaseViewModel.pageOverlay]）
+ * - [enablePageOverlay] 为 `true`（默认）时，在 [android.R.id.content] 上叠一层 [PageOverlayHost]，与 [com.example.myapplication.mvvm.BaseViewModel] 里
+ *   [showPageLoading] / [showPageEmpty] / [showPageError] / [showPageContent] 驱动状态同步。
+ * - 重试：若设置了 [onPageOverlayRetry]，**只调**该 lambda，**不再**调 [com.example.myapplication.mvvm.BaseViewModel.onPageOverlayRetry]；
+ *   若 lambda 为 `null`，则转发到 ViewModel 的 `onPageOverlayRetry`。
+ *
+ * ## 需要 ViewModel
+ * 请继承 [BaseBindingVmActivity]：会多走 [bindBaseViewModel] / `bindBaseViewModelUi`，自动接 [userMessage] 与 `pageOverlay`。
  */
 abstract class BaseBindingActivity<VB : ViewDataBinding> : BaseUiActivity() {
 
@@ -25,11 +35,11 @@ abstract class BaseBindingActivity<VB : ViewDataBinding> : BaseUiActivity() {
     @get:LayoutRes
     protected abstract val layoutId: Int
 
-    /** 为 false 时不挂载全屏遮罩（仍可通过 [BaseViewModel.pageOverlay] 自行处理）。 */
+    /** 为 false 时不挂载全屏遮罩（仍可通过 [com.example.myapplication.mvvm.BaseViewModel.pageOverlay] 自行处理）。 */
     protected open val enablePageOverlay: Boolean = true
 
     /**
-     * 错误遮罩显示「重试」且被点击时调用；若非 null，则不再调用 [BaseViewModel.onPageOverlayRetry]。
+     * 错误遮罩显示「重试」且被点击时调用；若非 null，则不再调用 [com.example.myapplication.mvvm.BaseViewModel.onPageOverlayRetry]。
      * 若既要回调又要 ViewModel 逻辑，请在 lambda 内自行调用 `viewModel.onPageOverlayRetry()` 等。
      */
     var onPageOverlayRetry: (() -> Unit)? = null
@@ -56,7 +66,7 @@ abstract class BaseBindingActivity<VB : ViewDataBinding> : BaseUiActivity() {
     }
 
     /**
-     * 绑定 [BaseViewModel] 的通用 UI：Toast、[messageFlow]、全屏遮罩等。
+     * 绑定 [com.example.myapplication.mvvm.BaseViewModel] 的通用 UI：[com.example.myapplication.mvvm.BaseViewModel.userMessage] 与全屏遮罩等。
      * Fragment 请使用 [BaseBindingFragment.bindBaseViewModel]。
      */
     protected open fun bindBaseViewModel(vm: BaseViewModel) {

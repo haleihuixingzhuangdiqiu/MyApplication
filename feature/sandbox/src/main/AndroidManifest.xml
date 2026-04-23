@@ -22,5 +22,15 @@
             android:exported="false"
             android:label="@string/sandbox_page_state_title"
             android:theme="@style/Theme.Sandbox" />
+        <activity
+            android:name=".SandboxStorageAdaptActivity"
+            android:exported="false"
+            android:label="@string/sandbox_storage_adapt_title"
+            android:theme="@style/Theme.Sandbox" />
+        <activity
+            android:name=".SandboxViewModelTestActivity"
+            android:exported="false"
+            android:label="@string/sandbox_vm_test_title"
+            android:theme="@style/Theme.Sandbox" />
     </application>
 </manifest>

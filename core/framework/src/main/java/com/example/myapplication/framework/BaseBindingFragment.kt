@@ -11,12 +11,18 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
+import com.example.myapplication.mvvm.BaseViewModel
 
 /**
- * 仅 DataBinding + 生命周期的 Fragment 基类；无 ViewModel 时使用。
- * 需要 Hilt 时在子类标注 [@dagger.hilt.android.AndroidEntryPoint]。
+ * **DataBinding 根** + 生命周期的 `Fragment` 基类；**无** [com.example.myapplication.mvvm.BaseViewModel] 时用本类。
  *
- * [enablePageOverlay] 为 true 时，在业务布局外包一层 [android.widget.FrameLayout]，用于全屏遮罩（见 [BaseBindingActivity] 说明）。
+ * ## 与 [BaseBindingActivity] 的差异
+ * - `Activity` 可把蒙层直接加到 [android.R.id.content]；`Fragment` 没有等价单根，故在 [onCreateView] 里用 [android.widget.FrameLayout]
+ *   包住业务 [binding.root]，再叠一层 [R.layout.framework_page_overlay] 和 [PageOverlayHost]。
+ * - [enablePageOverlay] 为 `false` 时直接返回业务根视图，不包 [FrameLayout]，适合确定不需要整页态的子页。
+ *
+ * [binding] 在 [onDestroyView] 置 `null`，避免泄漏；[bindBaseViewModel] 使用 [getViewLifecycleOwner] 与 [requireContext] 收集流。
+ * 要接 ViewModel 请用 [BaseBindingVmFragment]。
  */
 abstract class BaseBindingFragment<VB : ViewDataBinding> : Fragment() {
 
@@ -37,6 +43,8 @@ abstract class BaseBindingFragment<VB : ViewDataBinding> : Fragment() {
         if (!enablePageOverlay) {
             return binding.root
         }
+        // Fragment 无法像 Activity 那样直接挂到 android.R.id.content，
+        // 因此这里在业务根布局外再包一层 FrameLayout，叠加统一遮罩层。
         val wrapper = FrameLayout(inflater.context)
         wrapper.addView(
             binding.root,

@@ -5,7 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.myapplication.database.AppDatabase
 import com.example.myapplication.database.AppMetaEntity
 import com.example.myapplication.database.HomePostCacheEntity
-import com.example.myapplication.framework.BaseViewModel
+import com.example.myapplication.mvvm.BaseViewModel
+import com.example.myapplication.mvvm.launchInlineLoading
 import com.example.myapplication.game.adapter.GameBannerUi
 import com.example.myapplication.game.adapter.GameMetaHintModel
 import com.example.myapplication.game.adapter.GamePostRowModel
@@ -22,7 +23,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 @HiltViewModel
 class GameViewModel @Inject constructor(
@@ -55,25 +55,20 @@ class GameViewModel @Inject constructor(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
     init {
-        viewModelScope.launch {
-            setLoading(true)
-            try {
-                db.appMetaDao().upsert(AppMetaEntity("last_open_game", System.currentTimeMillis().toString()))
-                val count = db.appMetaDao().count()
-                gameDemoRepository.refreshFromNetwork()
-                    .onSuccess { n ->
-                        _roomHint.value = appContext.getString(
-                            R.string.game_hint_ok,
-                            count,
-                            n,
-                        )
-                    }
-                    .onFailure {
-                        _roomHint.value = appContext.getString(R.string.game_hint_network_fail, count)
-                    }
-            } finally {
-                setLoading(false)
-            }
+        launchInlineLoading {
+            db.appMetaDao().upsert(AppMetaEntity("last_open_game", System.currentTimeMillis().toString()))
+            val count = db.appMetaDao().count()
+            gameDemoRepository.refreshFromNetwork()
+                .onSuccess { n ->
+                    _roomHint.value = appContext.getString(
+                        R.string.game_hint_ok,
+                        count,
+                        n,
+                    )
+                }
+                .onFailure {
+                    _roomHint.value = appContext.getString(R.string.game_hint_network_fail, count)
+                }
         }
     }
 
@@ -85,21 +80,16 @@ class GameViewModel @Inject constructor(
     }
 
     fun refreshPosts() {
-        viewModelScope.launch {
-            setLoading(true)
-            try {
-                val count = db.appMetaDao().count()
-                gameDemoRepository.refreshFromNetwork()
-                    .onSuccess { n ->
-                        _roomHint.value = appContext.getString(R.string.game_hint_refreshed, n)
-                    }
-                    .onFailure { e ->
-                        postError(e.message ?: appContext.getString(R.string.game_refresh_fail))
-                        _roomHint.value = appContext.getString(R.string.game_hint_network_fail, count)
-                    }
-            } finally {
-                setLoading(false)
-            }
+        launchInlineLoading {
+            val count = db.appMetaDao().count()
+            gameDemoRepository.refreshFromNetwork()
+                .onSuccess { n ->
+                    _roomHint.value = appContext.getString(R.string.game_hint_refreshed, n)
+                }
+                .onFailure { e ->
+                    postError(e.message ?: appContext.getString(R.string.game_refresh_fail))
+                    _roomHint.value = appContext.getString(R.string.game_hint_network_fail, count)
+                }
         }
     }
 

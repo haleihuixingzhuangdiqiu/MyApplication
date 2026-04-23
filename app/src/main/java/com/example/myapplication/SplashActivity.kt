@@ -2,10 +2,10 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieAnimationView
+import com.example.myapplication.framework.BaseUiActivity
 import com.example.myapplication.splash.SplashConfigLoader
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -15,7 +15,11 @@ import kotlinx.coroutines.launch
  *
  * 进程未杀、任务栈里已有主界面时，从桌面再次点图标可能仍会进本页；此时 [isTaskRoot] 为 false，直接回主壳、不重复播闪屏。
  */
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : BaseUiActivity() {
+
+    override val useAutoSize: Boolean = false
+
+    override val shouldApplyRootStatusBarInsets: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()

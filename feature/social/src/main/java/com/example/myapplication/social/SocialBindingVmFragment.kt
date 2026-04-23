@@ -2,7 +2,7 @@ package com.example.myapplication.social
 
 import androidx.databinding.ViewDataBinding
 import com.example.myapplication.framework.BaseBindingVmFragment
-import com.example.myapplication.framework.BaseViewModel
+import com.example.myapplication.mvvm.BaseViewModel
 
 abstract class SocialBindingVmFragment<VB : ViewDataBinding, VM : BaseViewModel> :
     BaseBindingVmFragment<VB, VM>() {

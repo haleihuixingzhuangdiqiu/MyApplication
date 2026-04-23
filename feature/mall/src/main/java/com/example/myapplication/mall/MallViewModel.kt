@@ -1,7 +1,9 @@
 package com.example.myapplication.mall
 
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.framework.BaseViewModel
+import com.example.myapplication.mvvm.BaseViewModel
+import com.example.myapplication.mvvm.launchInlineLoading
+import com.example.myapplication.mvvm.launchPageLoading
 import com.example.myapplication.mall.adapter.MallCatalogRowModel
 import com.example.myapplication.session.SessionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -54,9 +56,8 @@ class MallViewModel @Inject constructor(
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
     init {
-        viewModelScope.launch {
+        launchPageLoading {
             syncCartWithSession()
-            showPageLoading()
             refreshInternal()
         }
         viewModelScope.launch {
@@ -76,20 +77,14 @@ class MallViewModel @Inject constructor(
     }
 
     override fun onPageOverlayRetry() {
-        viewModelScope.launch {
-            showPageLoading()
+        launchPageLoading {
             refreshInternal()
         }
     }
 
     fun refreshCatalog() {
-        viewModelScope.launch {
-            setLoading(true)
-            try {
-                refreshInternal()
-            } finally {
-                setLoading(false)
-            }
+        launchInlineLoading {
+            refreshInternal()
         }
     }
 
@@ -128,7 +123,7 @@ class MallViewModel @Inject constructor(
                 if (list.isEmpty()) {
                     showPageEmpty()
                 } else {
-                    hidePageOverlay()
+                    showPageContent()
                 }
             }
             .onFailure { e ->

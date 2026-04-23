@@ -1,12 +1,11 @@
 package com.example.myapplication
 
 import androidx.databinding.ObservableField
-import androidx.lifecycle.viewModelScope
-import com.example.myapplication.framework.BaseViewModel
+import com.example.myapplication.mvvm.BaseViewModel
+import com.example.myapplication.mvvm.launchPageLoading
 import com.example.myapplication.session.SessionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.launch
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
@@ -23,17 +22,16 @@ class LoginViewModel @Inject constructor(
     }
 
     fun submit() {
-        viewModelScope.launch {
+        launchPageLoading {
             val u = username.get().orEmpty()
             val p = password.get().orEmpty()
-            showPageLoading()
             sessionRepository.signIn(u, p)
                 .onSuccess {
-                    hidePageOverlay()
+                    showPageContent()
                     _onSuccessFinish?.invoke()
                 }
                 .onFailure { e ->
-                    hidePageOverlay()
+                    showPageContent()
                     showToast(e.message ?: "登录失败")
                 }
         }

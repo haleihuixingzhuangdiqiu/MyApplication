@@ -1,8 +1,8 @@
 package com.example.myapplication
 
 import com.example.myapplication.navigation.RoutePaths
-import com.example.myapplication.framework.BaseViewModel
-import com.example.myapplication.framework.Event
+import com.example.myapplication.mvvm.BaseViewModel
+import com.example.myapplication.mvvm.Event
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow

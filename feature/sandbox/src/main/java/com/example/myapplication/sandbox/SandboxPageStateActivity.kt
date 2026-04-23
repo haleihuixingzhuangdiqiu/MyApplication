@@ -6,10 +6,10 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.example.myapplication.navigation.RoutePaths
 import com.example.myapplication.framework.BaseUiActivity
 import com.example.myapplication.framework.PageOverlayHost
-import com.example.myapplication.framework.PageOverlayState
+import com.example.myapplication.mvvm.PageOverlayState
 
 /**
- * 演示 [PageOverlayState] + [PageOverlayHost]（与 [com.example.myapplication.framework.BaseViewModel.pageOverlay] 同源状态模型）。
+ * 演示 [PageOverlayState] + [PageOverlayHost]（与 [com.example.myapplication.mvvm.BaseViewModel.pageOverlay] 同源状态模型）。
  */
 @Route(path = RoutePaths.SANDBOX_PAGE_STATE)
 class SandboxPageStateActivity : BaseUiActivity() {

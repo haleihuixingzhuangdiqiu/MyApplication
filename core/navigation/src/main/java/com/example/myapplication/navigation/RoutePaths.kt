@@ -37,4 +37,10 @@ object RoutePaths {
 
     /** 全屏页面状态（Loading / Empty / Error）试页面。 */
     const val SANDBOX_PAGE_STATE = "/sandbox/page_state"
+
+    /** MMKV 包装 + 375 宽适配联调页。 */
+    const val SANDBOX_STORAGE_ADAPT = "/sandbox/storage_adapt"
+
+    /** BaseViewModel 方法调用测试页。 */
+    const val SANDBOX_VIEWMODEL_TEST = "/sandbox/viewmodel_test"
 }

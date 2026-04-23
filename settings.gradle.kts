@@ -55,6 +55,7 @@ dependencyResolutionManagement {
 rootProject.name = "My Application"
 include(":app")
 include(":core:common")
+include(":core:mvvm")
 include(":core:navigation")
 include(":core:framework")
 include(":core:database")

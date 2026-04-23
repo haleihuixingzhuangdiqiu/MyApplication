@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.view.isVisible
+import com.example.myapplication.mvvm.PageOverlayState
 import com.google.android.material.button.MaterialButton
 
 /**
@@ -69,6 +70,8 @@ class PageOverlayHost internal constructor(
                 content,
                 false,
             )
+            // 遮罩直接挂在 content 最上层，不侵入业务布局结构；
+            // 这样 DataBinding / ViewBinding / 纯 View 页面都能复用同一套全屏状态 UI。
             content.addView(
                 overlay,
                 ViewGroup.LayoutParams(

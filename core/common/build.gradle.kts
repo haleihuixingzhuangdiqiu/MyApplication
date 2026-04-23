@@ -11,6 +11,8 @@ android {
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.mmkv)
+    implementation(libs.gson)
     implementation("javax.inject:javax.inject:1")
     compileOnly(libs.hilt.android)
 }

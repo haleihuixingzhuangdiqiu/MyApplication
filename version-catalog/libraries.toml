@@ -37,6 +37,9 @@ okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor",
 
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
+autosize = { group = "me.jessyan", name = "autosize", version.ref = "autosize" }
+mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkv" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 

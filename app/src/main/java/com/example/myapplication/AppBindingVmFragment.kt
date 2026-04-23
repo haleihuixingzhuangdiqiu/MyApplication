@@ -2,7 +2,7 @@ package com.example.myapplication
 
 import androidx.databinding.ViewDataBinding
 import com.example.myapplication.framework.BaseBindingVmFragment
-import com.example.myapplication.framework.BaseViewModel
+import com.example.myapplication.mvvm.BaseViewModel
 
 /** `:app` 内带 VM 的 DataBinding Fragment 基类：固定本模块 `BR.vm`。 */
 abstract class AppBindingVmFragment<VB : ViewDataBinding, VM : BaseViewModel> :

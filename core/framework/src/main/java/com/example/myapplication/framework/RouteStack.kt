@@ -16,6 +16,7 @@ object RouteStack {
         val p = path?.trim().orEmpty()
         if (p.isEmpty()) return
         synchronized(lock) {
+            // 连续重复跳同一路径时只保留一次，避免列表页内部重复 navigation 把轨迹刷满。
             if (deque.lastOrNull() != p) {
                 deque.addLast(p)
             }

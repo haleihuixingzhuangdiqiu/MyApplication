@@ -54,7 +54,6 @@ class MallMainFragment : MallBindingVmFragment<FragmentMallBinding, MallViewMode
         binding.btnMallLogin.setOnClickListener {
             ARouter.getInstance().build(RoutePaths.LOGIN).navigation(requireActivity())
         }
-
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {

@@ -1,7 +1,9 @@
 package com.example.myapplication.social
 
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.framework.BaseViewModel
+import com.example.myapplication.mvvm.BaseViewModel
+import com.example.myapplication.mvvm.launchInlineLoading
+import com.example.myapplication.mvvm.launchPageLoading
 import com.example.myapplication.session.SessionRepository
 import com.example.myapplication.social.adapter.SocialFeedRowModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -68,9 +70,8 @@ class SocialViewModel @Inject constructor(
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
     init {
-        viewModelScope.launch {
+        launchPageLoading {
             syncFollowIdsWithSession()
-            showPageLoading()
             refreshInternal()
         }
         viewModelScope.launch {
@@ -94,20 +95,14 @@ class SocialViewModel @Inject constructor(
     }
 
     override fun onPageOverlayRetry() {
-        viewModelScope.launch {
-            showPageLoading()
+        launchPageLoading {
             refreshInternal()
         }
     }
 
     fun refreshFeed() {
-        viewModelScope.launch {
-            setLoading(true)
-            try {
-                refreshInternal()
-            } finally {
-                setLoading(false)
-            }
+        launchInlineLoading {
+            refreshInternal()
         }
     }
 
@@ -150,7 +145,7 @@ class SocialViewModel @Inject constructor(
                 if (list.isEmpty()) {
                     showPageEmpty()
                 } else {
-                    hidePageOverlay()
+                    showPageContent()
                 }
             }
             .onFailure { e ->
