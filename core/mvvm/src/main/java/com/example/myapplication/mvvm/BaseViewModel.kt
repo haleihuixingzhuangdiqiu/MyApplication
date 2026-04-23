@@ -12,25 +12,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 /**
- * 业务 `ViewModel` 基类，把常见 UI 状态集中在一处，避免各业务各写一套 `MutableLiveData`/`Channel`。
- *
- * ## 三类对外状态（与职责）
- *
- * 1. **[loading]**：行内/局部「转圈」类加载态。适合列表刷新、按钮提交时在工具栏/卡片上显示，**不盖满整页**。
- *    与 [showPageLoading] 的**整页**遮罩是两套东西，可并行存在（一般不要同时用两种 loading 指同一次请求）。
- *
- * 2. **[userMessage]**：需要用户「撇一眼」的轻提示（如 Toast），走 [Event] 做**一次性消费**，避免转屏/重进重复弹。
- *    [showToast]、[postError] 都发到这里，**展示路径相同**，仅方法名帮助区分成功提示 vs 错误提示。
- *
- * 3. **[pageOverlay]**：全屏/整页级遮罩（转圈、空、错、可重试），与 [com.example.myapplication.framework.PageOverlayHost] 一一对应。
- *    需要「盖住列表、全屏说没数据/出错」时用这套；**恢复下方业务内容**请调用 [showPageContent]（对应状态 [PageOverlayState.Hidden]）。
- *
- * ## 与 UI 层如何接上线
- * `:core:framework` 里 `bindBaseViewModelUi` 会收集 [userMessage] 与 [pageOverlay]；若你未使用 [com.example.myapplication.framework.BaseBindingActivity]，
- * 需自己在 `Activity`/`Fragment` 里用 `collect` 相同逻辑。
- *
- * ## 协程 + Loading 的推荐写法
- * 对「自动 try/finally + 行内/整页 loading」见同模块的 [launch]、[launchInlineLoading]、[launchPageLoading]。
+ * 业务 `ViewModel` 基类：行内/浮层 [loading]/[dialogLoading]、轻提示 [userMessage]（[UiUserMessage]：网络类 [postError] → 带叉；业务/一般 [postInfo] / [showToast] → info）、整页 [pageOverlay]。
+ * 网络请求可优先用 [com.example.myapplication.mvvm.request.dataRequest] / [com.example.myapplication.mvvm.request.envelopedRequest]；协程+loading 见 [launch] 系列。UI 收集见 `bindBaseViewModelUi` 或自写 `collect`。
  */
 abstract class BaseViewModel : ViewModel() {
 
@@ -42,13 +25,18 @@ abstract class BaseViewModel : ViewModel() {
      */
     val loading: StateFlow<Boolean> = _loading.asStateFlow()
 
-    private val _userMessage = MutableSharedFlow<Event<String>>(extraBufferCapacity = 64)
+    private val _dialogLoading = MutableStateFlow(false)
+
+    /** 全屏/窗口级转圈，链式 `withDialogLoading` 会开关；在页面里 collect 后接 Dialog。 */
+    val dialogLoading: StateFlow<Boolean> = _dialogLoading.asStateFlow()
+
+    private val _userMessage = MutableSharedFlow<Event<UiUserMessage>>(extraBufferCapacity = 64)
 
     /**
-     * 轻提示文案（如 Toast 实现）。**所有** [showToast] / [postError] 都走此流，避免多通道同时弹两个 Toast。
+     * 轻提示（如 Toast）。[showToast] / [postInfo] 为 [UiUserMessage.InfoMessage]；[postError] 为 [UiUserMessage.ErrorMessage]（带叉 error 样式）。
      * 在 UI 层用 [Event.getContentIfNotHandled] 消费；若用框架绑定则已代劳。
      */
-    val userMessage: SharedFlow<Event<String>> = _userMessage.asSharedFlow()
+    val userMessage: SharedFlow<Event<UiUserMessage>> = _userMessage.asSharedFlow()
 
     private val _pageOverlay = MutableStateFlow<PageOverlayState>(PageOverlayState.Hidden)
 
@@ -68,17 +56,31 @@ abstract class BaseViewModel : ViewModel() {
     /** 供同模块 [launch] 在 `try` 里打开、`finally` 里关闭行内 loading。 */
     internal fun setLoadingInternal(show: Boolean) = setLoading(show)
 
+    protected fun setDialogLoading(show: Boolean) {
+        _dialogLoading.value = show
+    }
+
+    /** 供链式请求开关浮层 loading。 */
+    fun setDialogLoadingForRequestChain(show: Boolean) = setDialogLoading(show)
+
     /**
-     * 发一条轻提示（成功/提示类文案），经 [userMessage] 到 UI 层以 Toast 等方式展示。
+     * 发一条**业务/一般**向轻提示，UI 为 info 样式（[UiUserMessage.InfoMessage]）。
      */
     protected fun showToast(msg: String) {
-        viewModelScope.launch { _userMessage.emit(Event(msg)) }
+        viewModelScope.launch { _userMessage.emit(Event(UiUserMessage.InfoMessage(msg))) }
     }
 
     /**
-     * 发一条**错误/失败**向的轻提示；**实现上与 [showToast] 相同**（同一 [userMessage]），仅方法名表达语义。
+     * 同 [showToast]：info 样式，语义上强调「业务提示」时可显式调用。
      */
-    protected fun postError(msg: String) = showToast(msg)
+    protected fun postInfo(msg: String) = showToast(msg)
+
+    /**
+     * 发一条**网络/系统**向失败提示，UI 为带叉的 error 样式（[UiUserMessage.ErrorMessage] / [com.example.myapplication.common.toast.showError]）。
+     */
+    protected fun postError(msg: String) {
+        viewModelScope.launch { _userMessage.emit(Event(UiUserMessage.ErrorMessage(msg))) }
+    }
 
     /**
      * 将 [pageOverlay] 设为 [PageOverlayState.Loading]：全屏/整页转圈。用于首屏、整页数据加载。
@@ -99,7 +101,7 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     /**
-     * 整页错误态，可带重试。用户点重试时，优先走页面 [com.example.myapplication.framework.BaseBindingActivity.onPageOverlayRetry]，
+     * 整页错误态，可带重试。用户点重试时，优先走页面 [BaseBindingActivity.onPageOverlayRetry]，
      * 否则走 [onPageOverlayRetry]。
      */
     protected fun showPageError(message: String, allowRetry: Boolean = true) {
@@ -118,4 +120,14 @@ abstract class BaseViewModel : ViewModel() {
      * 整页错误蒙层上「重试」被点击，且页面上**没有**单独配置 `onPageOverlayRetry` 时回调。默认空实现，子类覆盖即可。
      */
     open fun onPageOverlayRetry() {}
+
+    fun showPageContentForRequestChain() = showPageContent()
+    fun showPageLoadingForRequestChain() = showPageLoading()
+    fun showPageErrorForRequestChain(message: String) = showPageError(message, true)
+
+    /** 链式里**网络**类默认轻提示，error 样式（带叉）。 */
+    fun postErrorForRequestChainDefault(msg: String) = postError(msg)
+
+    /** 链式里**业务** `message` 轻提示，info 样式。 */
+    fun postInfoForRequestChainDefault(msg: String) = postInfo(msg)
 }

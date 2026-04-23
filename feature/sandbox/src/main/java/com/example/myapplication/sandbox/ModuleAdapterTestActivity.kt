@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.example.myapplication.navigation.RoutePaths
-import com.example.myapplication.framework.BaseUiActivity
+import com.example.myapplication.mvvm.BaseUiActivity
 import com.example.myapplication.sandbox.moduleadapter.MaGridCellModel
 import com.example.myapplication.sandbox.moduleadapter.MaGridCellView
 import com.example.myapplication.sandbox.moduleadapter.MaRowModel

@@ -19,6 +19,8 @@ import kotlinx.coroutines.launch
  * - **[PAGE]**：在协程**开始**时调 [BaseViewModel.showPageLoading]（整页蒙层）。**不会**在 `finally` 里自动关掉整页蒙层——你必须在 `tryBlock` 里根据结果调用
  *   [BaseViewModel.showPageContent] / [BaseViewModel.showPageEmpty] / [BaseViewModel.showPageError]，否则用户会一直看到转圈。
  *   这样设计是为了避免「业务已切到 Error/Empty，`finally` 又一把打成 [PageOverlayState.Hidden]」的竞态。
+ *
+ * 三种行为单测见 `core/mvvm/src/test/.../VmLoadingStyleLaunchTest.kt`。
  */
 enum class VmLoadingStyle {
     /**

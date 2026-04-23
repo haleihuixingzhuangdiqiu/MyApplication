@@ -11,7 +11,7 @@ import coil.load
 import coil.imageLoader
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.example.myapplication.navigation.RoutePaths
-import com.example.myapplication.framework.BaseUiActivity
+import com.example.myapplication.mvvm.BaseUiActivity
 import com.example.myapplication.social.adapter.SocialFeedRowModel
 import com.example.myapplication.social.databinding.ActivitySocialFeedDetailBinding
 import dagger.hilt.android.AndroidEntryPoint

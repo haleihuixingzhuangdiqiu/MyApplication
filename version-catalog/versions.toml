@@ -40,3 +40,8 @@ chucker = "4.1.0"
 autosize = "1.2.1"
 mmkv = "2.4.0"
 gson = "2.11.0"
+# https://github.com/getActivity/Toaster
+toaster = "15.0"
+
+# https://github.com/scwang90/SmartRefreshLayout
+smartRefreshLayout = "2.1.0"

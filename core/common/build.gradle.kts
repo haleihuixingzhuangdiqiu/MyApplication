@@ -10,6 +10,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
+    api(libs.toaster)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.mmkv)
     implementation(libs.gson)

@@ -1,7 +1,7 @@
 package com.example.myapplication
 
 import androidx.databinding.ViewDataBinding
-import com.example.myapplication.framework.BaseBindingVmActivity
+import com.example.myapplication.mvvm.BaseBindingVmActivity
 import com.example.myapplication.mvvm.BaseViewModel
 
 /**

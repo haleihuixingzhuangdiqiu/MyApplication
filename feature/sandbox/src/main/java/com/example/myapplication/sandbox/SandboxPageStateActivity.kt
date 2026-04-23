@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.widget.Button
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.example.myapplication.navigation.RoutePaths
-import com.example.myapplication.framework.BaseUiActivity
-import com.example.myapplication.framework.PageOverlayHost
+import com.example.myapplication.mvvm.BaseUiActivity
+import com.example.myapplication.mvvm.PageOverlayHost
 import com.example.myapplication.mvvm.PageOverlayState
 
 /**

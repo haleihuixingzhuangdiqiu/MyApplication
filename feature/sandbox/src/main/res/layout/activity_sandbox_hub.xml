@@ -38,5 +38,19 @@
         android:id="@+id/btn_open_storage_adapt_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
         android:text="@string/sandbox_open_storage_adapt" />
+
+    <Button
+        android:id="@+id/btn_open_network_chain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:text="@string/sandbox_open_network_chain" />
+
+    <Button
+        android:id="@+id/btn_open_paged_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sandbox_open_paged_refresh" />
 </LinearLayout>

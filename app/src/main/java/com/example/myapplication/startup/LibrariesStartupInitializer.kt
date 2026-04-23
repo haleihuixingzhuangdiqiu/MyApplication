@@ -7,10 +7,12 @@ import coil.Coil
 import com.alibaba.android.arouter.launcher.ARouter
 import com.billy.cc.core.component.CC
 import com.example.myapplication.BuildConfig
+import com.example.myapplication.common.toast.AppToaster
 import com.example.myapplication.cc.CcComponents
+import com.example.myapplication.di.AppBootstrapEntryPoint
 import com.example.myapplication.di.CoilImageLoaderEntryPoint
 import com.example.myapplication.storage.MmkvInitializer
-import com.example.myapplication.framework.FrameworkAutoAdaptStrategy
+import com.example.myapplication.mvvm.FrameworkAutoAdaptStrategy
 import com.noober.background.BackgroundLibrary
 import dagger.hilt.android.EarlyEntryPoints
 import me.jessyan.autosize.AutoSize
@@ -18,7 +20,8 @@ import me.jessyan.autosize.AutoSizeConfig
 import timber.log.Timber
 
 /**
- * 冷启动库初始化：AutoSize、MMKV、Timber（仅 Debug）、BackgroundLibrary、Coil（`@EarlyEntryPoint`）、CC、ARouter、CC 组件注册。
+ * 冷启动库初始化：Toaster、AutoSize、MMKV、Timber（仅 Debug）、BackgroundLibrary、Coil（`@EarlyEntryPoint`）、
+ * 网络全局业务错 Hub/单点事件管道、CC、ARouter、CC 组件注册。
  * 在 [android.app.Application.onCreate] 之前执行。
  */
 class LibrariesStartupInitializer : Initializer<Unit> {
@@ -26,6 +29,7 @@ class LibrariesStartupInitializer : Initializer<Unit> {
     override fun create(context: Context) {
         val app = context.applicationContext as Application
 
+        AppToaster.init(app)
         // 屏幕适配属于全局基础设施，放到统一启动链路里做初始化。
         AutoSize.checkAndInit(app)
         AutoSizeConfig.getInstance()
@@ -46,6 +50,10 @@ class LibrariesStartupInitializer : Initializer<Unit> {
 
         val imageLoader = EarlyEntryPoints.get(app, CoilImageLoaderEntryPoint::class.java).imageLoader()
         Coil.setImageLoader(imageLoader)
+
+        val bootstrap = EarlyEntryPoints.get(app, AppBootstrapEntryPoint::class.java)
+        bootstrap.apiBusinessErrorHubStartup()
+        bootstrap.globalBusinessErrorEventPipeline()
 
         CC.init(app)
         if (BuildConfig.DEBUG) {

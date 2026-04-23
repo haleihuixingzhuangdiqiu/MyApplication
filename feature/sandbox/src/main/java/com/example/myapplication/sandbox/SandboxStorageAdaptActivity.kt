@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.example.myapplication.framework.BaseUiActivity
+import com.example.myapplication.mvvm.BaseUiActivity
 import com.example.myapplication.navigation.RoutePaths
 import com.example.myapplication.storage.KV
 import com.example.myapplication.storage.KvScope

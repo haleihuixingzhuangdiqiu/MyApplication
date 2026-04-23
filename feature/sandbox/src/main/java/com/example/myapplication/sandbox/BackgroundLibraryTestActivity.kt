@@ -3,7 +3,7 @@ package com.example.myapplication.sandbox
 import android.os.Bundle
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.example.myapplication.navigation.RoutePaths
-import com.example.myapplication.framework.BaseUiActivity
+import com.example.myapplication.mvvm.BaseUiActivity
 
 /**
  * [BackgroundLibrary](https://github.com/JavaNoober/BackgroundLibrary) 独立试页面。

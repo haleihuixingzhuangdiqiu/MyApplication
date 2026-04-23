@@ -2,7 +2,6 @@ package com.example.myapplication.sandbox
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.lifecycle.Lifecycle
@@ -10,8 +9,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.example.myapplication.framework.BaseUiActivity
-import com.example.myapplication.framework.PageOverlayHost
+import com.example.myapplication.mvvm.BaseUiActivity
+import com.example.myapplication.mvvm.PageOverlayHost
+import com.example.myapplication.mvvm.Event
+import com.example.myapplication.mvvm.UiUserMessage
+import com.example.myapplication.common.toast.showError
+import com.example.myapplication.common.toast.showInfo
 import com.example.myapplication.navigation.RoutePaths
 import kotlinx.coroutines.launch
 
@@ -24,63 +27,47 @@ class SandboxViewModelTestActivity : BaseUiActivity() {
 
     private lateinit var viewModel: SandboxViewModelTestViewModel
     private lateinit var overlayHost: PageOverlayHost
-    private lateinit var inlineProgress: ProgressBar
-    private lateinit var inlineLoadingText: TextView
-    private lateinit var statusText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTitle(R.string.sandbox_vm_test_title)
 
         viewModel = ViewModelProvider(this)[SandboxViewModelTestViewModel::class.java]
         overlayHost = attachPageOverlayHost { viewModel.onPageOverlayRetry() }
-        inlineProgress = findViewById(R.id.progress_inline_loading)
-        inlineLoadingText = findViewById(R.id.text_inline_loading)
-        statusText = findViewById(R.id.text_vm_status)
 
-        bindActions()
-        bindViewModel()
-    }
+        findViewById<View>(R.id.btn_none).setOnClickListener { viewModel.demoNone() }
+        findViewById<View>(R.id.btn_inline).setOnClickListener { viewModel.demoInline() }
+        findViewById<View>(R.id.btn_page_content).setOnClickListener { viewModel.demoPageToContent() }
+        findViewById<View>(R.id.btn_page_empty).setOnClickListener { viewModel.demoPageToEmpty() }
+        findViewById<View>(R.id.btn_page_error).setOnClickListener { viewModel.demoPageToError() }
+        findViewById<View>(R.id.btn_toast).setOnClickListener { viewModel.demoToast() }
+        findViewById<View>(R.id.btn_err).setOnClickListener { viewModel.demoPostError() }
 
-    private fun bindActions() {
-        findViewById<Button>(R.id.btn_vm_show_toast).setOnClickListener { viewModel.triggerToast() }
-        findViewById<Button>(R.id.btn_vm_post_error).setOnClickListener { viewModel.triggerError() }
-        findViewById<Button>(R.id.btn_vm_emit_message).setOnClickListener { viewModel.triggerMessage() }
-        findViewById<Button>(R.id.btn_vm_inline_success).setOnClickListener { viewModel.triggerInlineLoadingSuccess() }
-        findViewById<Button>(R.id.btn_vm_inline_fail).setOnClickListener { viewModel.triggerInlineLoadingFailure() }
-        findViewById<Button>(R.id.btn_vm_page_loading_hide).setOnClickListener { viewModel.triggerPageLoadingThenHide() }
-        findViewById<Button>(R.id.btn_vm_page_empty).setOnClickListener { viewModel.triggerPageEmpty() }
-        findViewById<Button>(R.id.btn_vm_page_error).setOnClickListener { viewModel.triggerPageError() }
-        findViewById<Button>(R.id.btn_vm_page_success).setOnClickListener { viewModel.triggerPageLoadingToSuccess() }
-        findViewById<Button>(R.id.btn_vm_page_empty_async).setOnClickListener { viewModel.triggerPageLoadingToEmpty() }
-        findViewById<Button>(R.id.btn_vm_page_error_async).setOnClickListener { viewModel.triggerPageLoadingToError() }
-    }
+        val inlineProgress = findViewById<ProgressBar>(R.id.progress_inline_loading)
+        val inlineLoadingText = findViewById<TextView>(R.id.text_inline_loading)
+        val logText = findViewById<TextView>(R.id.text_vm_status)
 
-    private fun bindViewModel() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.loading.collect { loading ->
                         inlineProgress.visibility = if (loading) View.VISIBLE else View.GONE
-                        inlineLoadingText.text = getString(
-                            R.string.sandbox_vm_test_inline_loading,
-                            if (loading) "true" else "false",
-                        )
+                        inlineLoadingText.text = "loading: $loading"
                     }
                 }
                 launch {
-                    viewModel.pageOverlay.collect { state ->
-                        overlayHost.render(state)
-                    }
+                    viewModel.pageOverlay.collect { overlayHost.render(it) }
                 }
                 launch {
-                    viewModel.status.collect { status ->
-                        statusText.text = status
-                    }
+                    viewModel.log.collect { logText.text = it }
                 }
                 launch {
-                    viewModel.userMessage.collect { event ->
+                    viewModel.userMessage.collect { event: Event<UiUserMessage> ->
                         event.getContentIfNotHandled()?.let { msg ->
-                            android.widget.Toast.makeText(this@SandboxViewModelTestActivity, msg, android.widget.Toast.LENGTH_SHORT).show()
+                            when (msg) {
+                                is UiUserMessage.ErrorMessage -> msg.errorMessage.showError()
+                                is UiUserMessage.InfoMessage -> msg.text.showInfo()
+                            }
                         }
                     }
                 }

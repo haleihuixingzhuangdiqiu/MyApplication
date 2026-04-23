@@ -10,140 +10,143 @@
         android:padding="16dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/sandbox_vm_test_section_events"
-            android:textAppearance="?attr/textAppearanceTitleMedium" />
+            android:text="@string/sandbox_vm_test_block_style"
+            android:textAppearance="?attr/textAppearanceTitleSmall" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btn_vm_show_toast"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_none"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="6dp"
                 android:layout_weight="1"
-                android:text="@string/sandbox_vm_test_btn_toast" />
+                android:text="@string/sandbox_vm_test_btn_none" />
 
-            <Button
-                android:id="@+id/btn_vm_post_error"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_inline"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:text="@string/sandbox_vm_test_btn_error" />
+                android:text="@string/sandbox_vm_test_btn_inline" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_vm_emit_message"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="@string/sandbox_vm_test_btn_message" />
+            android:text="@string/sandbox_vm_test_block_page"
+            android:textAppearance="?attr/textAppearanceTitleSmall" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_page_content"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:text="@string/sandbox_vm_test_btn_page_content" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_page_empty"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_weight="1"
+                android:text="@string/sandbox_vm_test_btn_page_empty" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_page_error"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:text="@string/sandbox_vm_test_btn_page_error" />
+        </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/sandbox_vm_test_section_loading"
-            android:textAppearance="?attr/textAppearanceTitleMedium" />
+            android:layout_marginTop="12dp"
+            android:text="@string/sandbox_vm_test_block_msg"
+            android:textAppearance="?attr/textAppearanceTitleSmall" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_toast"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/sandbox_vm_test_btn_toast" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_err"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/sandbox_vm_test_btn_post_error" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/sandbox_vm_test_inline_label"
+            android:textAppearance="?attr/textAppearanceLabelMedium" />
 
         <ProgressBar
             android:id="@+id/progress_inline_loading"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="4dp"
             android:visibility="gone" />
 
         <TextView
             android:id="@+id/text_inline_loading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textAppearance="?attr/textAppearanceBodyMedium" />
-
-        <Button
-            android:id="@+id/btn_vm_inline_success"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/sandbox_vm_test_btn_inline_success" />
-
-        <Button
-            android:id="@+id/btn_vm_inline_fail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/sandbox_vm_test_btn_inline_fail" />
-
-        <Button
-            android:id="@+id/btn_vm_page_loading_hide"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/sandbox_vm_test_btn_page_loading_hide" />
-
-        <Button
-            android:id="@+id/btn_vm_page_empty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/sandbox_vm_test_btn_page_empty" />
-
-        <Button
-            android:id="@+id/btn_vm_page_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/sandbox_vm_test_btn_page_error" />
-
-        <Button
-            android:id="@+id/btn_vm_page_success"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/sandbox_vm_test_btn_page_success" />
-
-        <Button
-            android:id="@+id/btn_vm_page_empty_async"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/sandbox_vm_test_btn_page_empty_async" />
-
-        <Button
-            android:id="@+id/btn_vm_page_error_async"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/sandbox_vm_test_btn_page_error_async" />
+            android:fontFamily="monospace"
+            android:text="loading: false" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/sandbox_vm_test_retry_tip"
-            android:textAppearance="?attr/textAppearanceBodySmall" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/sandbox_vm_test_section_status"
-            android:textAppearance="?attr/textAppearanceTitleMedium" />
+            android:layout_marginTop="12dp"
+            android:text="@string/sandbox_vm_test_log_label"
+            android:textAppearance="?attr/textAppearanceLabelMedium" />
 
         <TextView
             android:id="@+id/text_vm_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="4dp"
             android:background="#FFF3F4F6"
+            android:fontFamily="monospace"
             android:padding="12dp"
-            android:textAppearance="?attr/textAppearanceBodyMedium" />
+            android:text="—" />
     </LinearLayout>
 </ScrollView>

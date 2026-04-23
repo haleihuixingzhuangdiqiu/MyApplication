@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/sandbox_float_loading_size"
+    android:layout_height="@dimen/sandbox_float_loading_size"
+    android:background="@drawable/sandbox_float_loading_bg"
+    android:padding="@dimen/sandbox_float_loading_padding">
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+</FrameLayout>

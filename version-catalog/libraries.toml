@@ -33,6 +33,7 @@ androidx-room-compiler = { group = "androidx.room", name = "room-compiler", vers
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+okhttp-mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "okhttp" }
 okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
@@ -40,8 +41,15 @@ lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie"
 autosize = { group = "me.jessyan", name = "autosize", version.ref = "autosize" }
 mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkv" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+toaster = { group = "com.github.getActivity", name = "Toaster", version.ref = "toaster" }
+
+# SmartRefreshLayout（io.github 坐标，见 https://github.com/scwang90/SmartRefreshLayout ）
+smartRefreshLayoutKernel = { group = "io.github.scwang90", name = "refresh-layout-kernel", version.ref = "smartRefreshLayout" }
+smartRefreshLayoutHeaderClassics = { group = "io.github.scwang90", name = "refresh-header-classics", version.ref = "smartRefreshLayout" }
+smartRefreshLayoutFooterClassics = { group = "io.github.scwang90", name = "refresh-footer-classics", version.ref = "smartRefreshLayout" }
 
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleRuntimeKtx" }

@@ -1,7 +1,7 @@
 package com.example.myapplication.mvvm
 
 /**
- * **整页级**蒙层状态机（转圈、空、错、不挡内容），与 [com.example.myapplication.framework.PageOverlayHost] 的 UI 一一对应。
+ * **整页级**蒙层状态机（转圈、空、错、不挡内容），与同模块 [PageOverlayHost] 的 UI 一一对应。
  *
  * ## 和 [com.example.myapplication.mvvm.BaseViewModel.loading] 的区别
  * - [com.example.myapplication.mvvm.BaseViewModel.loading]：行内/局部小菊花，**不盖满**屏幕，适合 SwipeRefresh、按钮旁。
@@ -32,7 +32,7 @@ sealed interface PageOverlayState {
 
     /**
      * 整页错误说明 + 是否提供重试。
-     * @param allowRetry 为 `true` 时显示重试按钮；点击后走页面 `onPageOverlayRetry` 或 [com.example.myapplication.mvvm.BaseViewModel.onPageOverlayRetry]（见 :core:framework 的 [com.example.myapplication.framework.BaseBindingActivity]）。
+     * @param allowRetry 为 `true` 时显示重试按钮；点击后走页面 `onPageOverlayRetry` 或 [BaseViewModel.onPageOverlayRetry]（见 [BaseBindingActivity]）。
      */
     data class Error(val message: String, val allowRetry: Boolean = true) : PageOverlayState
 }

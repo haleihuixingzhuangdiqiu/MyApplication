@@ -8,7 +8,7 @@ package com.example.myapplication.mvvm
  *   先调 [getContentIfNotHandled]：第一次返回载荷，之后同对象再调返回 `null`。
  * - [peek] 为调试或「只读不消费」设计，生产路径慎用，否则可能绕开「只弹一次」的语义。
  *
- * @param T 一般为 [String]（一条 Toast 文案），也可复用到导航参数字符串等场景。
+ * @param T 在 [com.example.myapplication.mvvm.BaseViewModel.userMessage] 上为 [com.example.myapplication.mvvm.UiUserMessage]；也用于其他一次性载荷。
  */
 class Event<out T>(private val content: T) {
     private var consumed = false

@@ -43,4 +43,10 @@ object RoutePaths {
 
     /** BaseViewModel 方法调用测试页。 */
     const val SANDBOX_VIEWMODEL_TEST = "/sandbox/viewmodel_test"
+
+    /** 沙箱：网络链式 + Flow。 */
+    const val SANDBOX_NETWORK_CHAIN = "/sandbox/network_chain"
+
+    /** 沙箱：UIKit 分页 + 下拉/上拉（SmartRefreshLayout）。 */
+    const val SANDBOX_PAGED_REFRESH = "/sandbox/paged_refresh"
 }

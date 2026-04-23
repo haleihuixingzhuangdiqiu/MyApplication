@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="sandbox_float_loading_size">120dp</dimen>
+    <dimen name="sandbox_float_loading_corner">16dp</dimen>
+    <dimen name="sandbox_float_loading_padding">28dp</dimen>
+</resources>

@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieAnimationView
-import com.example.myapplication.framework.BaseUiActivity
+import com.example.myapplication.mvvm.BaseUiActivity
 import com.example.myapplication.splash.SplashConfigLoader
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

@@ -32,5 +32,15 @@
             android:exported="false"
             android:label="@string/sandbox_vm_test_title"
             android:theme="@style/Theme.Sandbox" />
+        <activity
+            android:name=".SandboxNetworkChainActivity"
+            android:exported="false"
+            android:label="@string/sandbox_network_chain_title"
+            android:theme="@style/Theme.Sandbox" />
+        <activity
+            android:name=".SandboxPagedRefreshActivity"
+            android:exported="false"
+            android:label="@string/sandbox_paged_refresh_title"
+            android:theme="@style/Theme.Sandbox" />
     </application>
 </manifest>

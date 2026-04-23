@@ -6,7 +6,7 @@ import android.view.MenuItem
 import android.widget.Button
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.example.myapplication.framework.BaseUiActivity
+import com.example.myapplication.mvvm.BaseUiActivity
 import com.example.myapplication.navigation.RoutePaths
 
 @Route(path = RoutePaths.SANDBOX_HUB)
@@ -29,6 +29,12 @@ class SandboxHubActivity : BaseUiActivity() {
         }
         findViewById<Button>(R.id.btn_open_storage_adapt_test).setOnClickListener {
             ARouter.getInstance().build(RoutePaths.SANDBOX_STORAGE_ADAPT).navigation()
+        }
+        findViewById<Button>(R.id.btn_open_network_chain).setOnClickListener {
+            ARouter.getInstance().build(RoutePaths.SANDBOX_NETWORK_CHAIN).navigation()
+        }
+        findViewById<Button>(R.id.btn_open_paged_refresh).setOnClickListener {
+            ARouter.getInstance().build(RoutePaths.SANDBOX_PAGED_REFRESH).navigation()
         }
     }
 

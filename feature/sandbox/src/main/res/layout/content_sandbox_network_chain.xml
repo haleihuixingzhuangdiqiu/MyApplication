@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/sandbox_network_chain_intro" />
+
+        <TextView
+            android:id="@+id/text_log"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="monospace"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/text_debug"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:textSize="12sp" />
+
+        <TextView
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sandbox_net_section_data" />
+
+        <Button
+            android:id="@+id/btn_d_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/sandbox_net_btn_d_dialog" />
+
+        <Button
+            android:id="@+id/btn_d_page"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sandbox_net_btn_d_page" />
+
+        <Button
+            android:id="@+id/btn_d_defer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sandbox_net_btn_d_defer" />
+
+        <Button
+            android:id="@+id/btn_d_net_silent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sandbox_net_btn_d_net" />
+
+        <Button
+            android:id="@+id/btn_d_net_default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sandbox_net_btn_d_net_default" />
+
+        <Button
+            android:id="@+id/btn_d_on_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sandbox_net_btn_d_on_error" />
+
+        <TextView
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/sandbox_net_section_env" />
+
+        <Button
+            android:id="@+id/btn_e_default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/sandbox_net_btn_e_def" />
+
+        <Button
+            android:id="@+id/btn_e_skip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sandbox_net_btn_e_skip" />
+
+        <Button
+            android:id="@+id/btn_e_biz"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sandbox_net_btn_e_biz" />
+
+        <Button
+            android:id="@+id/btn_e_skip_enc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sandbox_net_btn_e_skip_enc" />
+
+        <TextView
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/sandbox_net_section_flow" />
+
+        <Button
+            android:id="@+id/btn_f_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/sandbox_net_btn_f_data" />
+
+        <Button
+            android:id="@+id/btn_f_env"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sandbox_net_btn_f_env" />
+
+        <Button
+            android:id="@+id/btn_f_as"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sandbox_net_btn_f_as" />
+    </LinearLayout>
+</ScrollView>
